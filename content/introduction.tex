@@ -1,1 +1,17 @@
 \chapter{Introduction}
+This report provides an understanding and documentation of a dynamic web interface application part of an energy hub system. An overview off the energy hub project is given in this introduction, for an easy understanding of the functionalities on the web interface. The report is divided into sections starting with an analysis of the system to be, fowling by the design and implementation for a scaled down prototype version of the energy hub project. 
+
+For the development and evaluative procedures, a LAMP(Linux Apache MySQL PHP) web server is set up, this process is explained in the implementation section of this report. The web interface can be accessed on the university network at the address http://10.1.18.223/.
+
+The web interface application includes a great amount of different scripting languages such as server side PHP and client side JavaScript, along with markup languages HTML and XML. The code for each will not be explained extensively, instead the most important functionalities will be filtered and explained in great detail.
+
+MySQL is a requirement in this web interface application, being the most used relational database in a open-source project environment. The integration between MySQL and PHP is easy and well documented making the development process faster. The development of the database is made more interactive and intuitive using phpMyAdmin tool, this tool is installed and explained in the web server implementation sections, and can be accessed at: http://10.1.18.223/phpMyAdmin/ , using the user name \textbf{eval} and password \textbf{ede10eval} with view only permissions.
+
+An extra web application is developed in PHP only for evaluative propose, it allows the user to view the code of all the files on the web server file structure. By this method the last version of the code is always updated for visualization. The application is called SeeIt and can be accessed at the address: http://10.1.18.223/SeeIt/ . This web application is not explained or documented in this report due to its simplicity and off the topic methods.
+
+The web interface layout was built with the help of different interaction design sessions, used in Interaction Design 1 and Web Technologies 1 courses. With the help of this courses, the web page layout was built in HTML and the user experience was improved from the feedback of the interaction design sessions. The web site graphical layout analysis and implementation is not explained or documented in this report, it can be seen on the appendix on the CD-ROM given.
+
+\section{Energy Hub Overview}
+An energy hub is a device able to route the energy to the devices connect to it in the most efficient and effective way, the energy hub is part of an green energy system, the devices connected to the it are: photovoltaic panels, wind turbines, batteries, and a dynamic number os different modules that can me available in future. 
+
+The user have to be able to analyse stored measurements, the values are retrieved by the modules to the energy hub and this is responsible to store the data so it can be available to the end user (web interface). A scaled down prototype is made for the energy hub, this is made to give and overview over the system to be in is main functionality: the communication between modules and energy hub, communication between the energy hub and the web server and the ability of switch the power between the connected modules.
