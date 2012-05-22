@@ -12,11 +12,22 @@
 \contentsline {subsection}{\numberline {2.4}Error Handling}{10}{subsection.0.2.4}
 \contentsline {section}{\numberline {3}Implementation}{11}{section.0.3}
 \contentsline {subsection}{\numberline {3.1}Web server set up}{11}{subsection.0.3.1}
-\contentsline {subsection}{\numberline {3.2}Database}{11}{subsection.0.3.2}
-\contentsline {subsection}{\numberline {3.3}Communication}{11}{subsection.0.3.3}
-\contentsline {subsection}{\numberline {3.4}Error Handling}{11}{subsection.0.3.4}
-\contentsline {subsection}{\numberline {3.5}Login}{11}{subsection.0.3.5}
-\contentsline {section}{\numberline {4}Discussion}{11}{section.0.4}
-\contentsline {section}{\numberline {5}Conclusion}{11}{section.0.5}
-\contentsline {section}{\numberline {6}References}{11}{section.0.6}
-\contentsline {section}{\numberline {7}Appendixes}{12}{section.0.7}
+\contentsline {subsection}{\numberline {3.2}Database}{14}{subsection.0.3.2}
+\contentsline {paragraph}{getData.php}{15}{paragraph*.26}
+\contentsline {subsection}{\numberline {3.3}Communication}{17}{subsection.0.3.3}
+\contentsline {paragraph}{savedata.php}{17}{paragraph*.27}
+\contentsline {paragraph}{sendcmd.php}{18}{paragraph*.28}
+\contentsline {paragraph}{saveip.php}{19}{paragraph*.29}
+\contentsline {paragraph}{db\_connect.php}{20}{paragraph*.30}
+\contentsline {paragraph}{db\_globals.php}{20}{paragraph*.31}
+\contentsline {subsection}{\numberline {3.4}Login}{21}{subsection.0.3.4}
+\contentsline {paragraph}{login.php }{21}{paragraph*.32}
+\contentsline {subsection}{\numberline {3.5}Error Handling}{21}{subsection.0.3.5}
+\contentsline {paragraph}{errorhandler.php}{21}{paragraph*.33}
+\contentsline {paragraph}{error.js}{23}{paragraph*.34}
+\contentsline {subsection}{\numberline {3.6}User Experience}{24}{subsection.0.3.6}
+\contentsline {paragraph}{popUp.js}{24}{paragraph*.36}
+\contentsline {paragraph}{control.js}{25}{paragraph*.37}
+\contentsline {section}{\numberline {4}Conclusion}{25}{section.0.4}
+\contentsline {section}{\numberline {5}References}{25}{section.0.5}
+\contentsline {section}{\numberline {6}Appendixes}{26}{section.0.6}

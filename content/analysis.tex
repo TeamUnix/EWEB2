@@ -1,8 +1,8 @@
 \section{Analysis}
-In this section an extensive analysis of the web interface is explained, using visual aids for the easy understanding of the system functionalities.
+In this section an analysis of the web interface is explained, using visual aids for the easy understanding of the system functionalities.
 
 \subsection{Database}
-For a well constructed database, it has to be consistent, flexible and efficient so no data is lost or repeated when data is saved. The analysis of the system information given is fundamental for the overview and development of the database structure.
+For a well constructed database, it has to be consistent, flexible and efficient so no data is lost or repeated when saved. The analysis of the system information given is fundamental for the overview and development of the database structure.
 
 The following use cases are retrieved from the pre-project of the energy hub project. (Project 3 found in appendix):
 \paragraph{Use Cases}
@@ -225,17 +225,17 @@ The proposed file structure can be seen bellow:
 
 A short description for each script listed above can be seen in this list:
 \begin{itemize}
-	\item includes\textbackslash images\textbackslash - Contains images related with the system functionalities.
-	\item includes\textbackslash db\_connect.php - Handle the connection to the MySQL database.
-	\item includes\textbackslash db\_globals.php - Includes all the global variables with the credentials for the database.
-	\item includes\textbackslash popStyle.css - Popup login style definition.
-	\item includes\textbackslash popUp.js - Client side script to handle the user login.
-	\item modules\textbackslash [0-2] - Modules pages, the numbers are associated with the modules ids, being 0 the hub, 1 the battery and 2 the photovoltaic panels.
-	\item modules\textbackslash control.js - Client side script, makes background requests to a PHP script, this script is part of the user experience optimization.
-	\item modules\textbackslash dock.php - PHP script contains the navigation system for the web interface.
-	\item modules\textbackslash getdata.php - PHP script called in background by the client side script running recursively control.js, this script retrieves the system status and data form database in real time, is part of the user experience optimization.
-	\item modules\textbackslash index.php - This page includes each module page structure.
-	\item modules\textbackslash module\_styles.css - Graphical layout definition.
+	\item includes/images/ - Contains images related with the system functionalities.
+	\item includes/db\_connect.php - Handle the connection to the MySQL database.
+	\item includes/db\_globals.php - Includes all the global variables with the credentials for the database.
+	\item includes/popStyle.css - Popup login style definition.
+	\item includes/popUp.js - Client side script to handle the user login.
+	\item modules/[0-2] - Modules pages, the numbers are associated with the modules ids, being 0 the hub, 1 the battery and 2 the photovoltaic panels.
+	\item modules/control.js - Client side script, makes background requests to a PHP script, this script is part of the user experience optimization.
+	\item modules/dock.php - PHP script contains the navigation system for the web interface.
+	\item modules/getdata.php - PHP script called in background by the client side script running recursively control.js, this script retrieves the system status and data form database in real time, is part of the user experience optimization.
+	\item modules/index.php - This page includes each module page structure.
+	\item modules/module\_styles.css - Graphical layout definition.
 	\item control.js - Client side script, makes background requests to a PHP script and handle the connections of new modules, this script is part of the user experience optimization.
 	\item cron.php  - Cron jobs are running by the server in a predefined time, in this case the cron.php at the web server root will point to the cron jobs inside each module folder.
 	\item error.js - Client side script, make background requests to a PHP script part of the error handling system.
