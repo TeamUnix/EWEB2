@@ -1,6 +1,22 @@
 \select@language {english}
-\contentsline {chapter}{\numberline {1}Introduction}{3}
-\contentsline {section}{\numberline {1.1}Energy Hub Overview}{3}
-\contentsline {chapter}{\numberline {2}Conclusion}{4}
-\contentsline {section}{\numberline {2.1}References}{4}
-\contentsline {chapter}{\numberline {3}Appendixes}{5}
+\contentsline {section}{\numberline {1}Introduction}{3}{section.0.1}
+\contentsline {subsection}{\numberline {1.1}Energy Hub Overview}{3}{subsection.0.1.1}
+\contentsline {section}{\numberline {2}Analysis}{3}{section.0.2}
+\contentsline {subsection}{\numberline {2.1}Database}{3}{subsection.0.2.1}
+\contentsline {paragraph}{Use Cases}{4}{paragraph*.2}
+\contentsline {paragraph}{Data sets}{4}{paragraph*.3}
+\contentsline {paragraph}{Data Model}{7}{paragraph*.16}
+\contentsline {subsection}{\numberline {2.2}File Structure}{8}{subsection.0.2.2}
+\contentsline {paragraph}{Overview}{8}{paragraph*.18}
+\contentsline {subsection}{\numberline {2.3}Communication}{9}{subsection.0.2.3}
+\contentsline {subsection}{\numberline {2.4}Error Handling}{10}{subsection.0.2.4}
+\contentsline {section}{\numberline {3}Implementation}{11}{section.0.3}
+\contentsline {subsection}{\numberline {3.1}Web server set up}{11}{subsection.0.3.1}
+\contentsline {subsection}{\numberline {3.2}Database}{11}{subsection.0.3.2}
+\contentsline {subsection}{\numberline {3.3}Communication}{11}{subsection.0.3.3}
+\contentsline {subsection}{\numberline {3.4}Error Handling}{11}{subsection.0.3.4}
+\contentsline {subsection}{\numberline {3.5}Login}{11}{subsection.0.3.5}
+\contentsline {section}{\numberline {4}Discussion}{11}{section.0.4}
+\contentsline {section}{\numberline {5}Conclusion}{11}{section.0.5}
+\contentsline {section}{\numberline {6}References}{11}{section.0.6}
+\contentsline {section}{\numberline {7}Appendixes}{12}{section.0.7}
