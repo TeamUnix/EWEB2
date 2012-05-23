@@ -1,7 +1,7 @@
 \section{Analysis}
 In this section an analysis of the web interface is explained, using visual aids for the easy understanding of the system functionalities.
 
-\subsection{Database}
+\subsection{Database - Paulo Fontes}
 For a well constructed database, it has to be consistent, flexible and efficient so no data is lost or repeated when saved. The analysis of the system information given is fundamental for the overview and development of the database structure.
 
 The following use cases are retrieved from the pre-project of the energy hub project. (Project 3 found in appendix):
@@ -204,7 +204,7 @@ Data model is a high-level overview of the database structure. At this stage dat
 	\end{centering}
 \end{figure}
 
-\subsection{File Structure}
+\subsection{File Structure - Theis Christensen }
 The file structure defines how files are grouped on a system, in a web server architecture the files are stored in the root directory defined by the web server (Apache) configuration. This section describes the analysis of a file structure that allows the scalability of the system.
 
 \paragraph{Overview}
@@ -250,7 +250,7 @@ A short description for each script listed above can be seen in this list:
 
 Due to the size of such system and the few time for the development, the project was scaled down so a high fidelity prototype where the system to be can be implemented and the main functionalities of the system tested.
 
-\subsection{Communication}
+\subsection{Communication - Dennis Madsen}
 The web interface is the connection between the user and the system, in this interface the user have to be able to see the data retrieved by the modules and at the same time be able to send commands to the energy hub/modules to do predefined tasks.
 
 To retrieve the measurements from the modules, an application running at the energy hub translate the data retrieved from the module through PLC to a URL request at the web server. In the server side a script is implemented to translate this request to a SQL query that saves the measurement to the database. It is important to define which data the server side script will expect from the energy hub request. Since each module can have more than one sensor is important to retrieve the sensor id, the measured value and the energy hub port that this module is connected to.
@@ -282,7 +282,7 @@ A background application running at the energy hub, ensure that after a reboot, 
 	\end{centering}
 \end{figure}
 
-\subsection{Error Handling}
+\subsection{Error Handling - Paulo Fontes}
 The web server have to be able to handle errors such the lost of communication with the energy hub or database connection problems. For a reliable system, a script running on the client side using JavaScript have to be implemented, this way the web interface can recursively test the communication to the energy hub and database.
 
 Is necessary to define the web interface response for both situations database and energy hub connection lost. If the connection is lost to the device the user is able to see the data stored in the database, so the system is not blocked, but a warning is shown to the user/administrator, do the correspondent debug can be done. In case the connection to the database is lost, the user interface is blocked with an warning, the energy hub will continue working, since it doesn't affected the correct work of the system to route the energy, in this situation all the data retrieved by the modules will be lost.
