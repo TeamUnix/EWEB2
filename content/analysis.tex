@@ -9,7 +9,7 @@ The following use cases are retrieved from the pre-project of the energy hub pro
 	\begin{itemize}
 		\item Jan is looking at the web interface for the energy hub. From where he can see the status for each modules connected to it
 in a graphically way.
-		\item A new energy module is connected to the hub, Jan opens the web interface for the energy hub, he logs in the administrator section of the system
+		\item A new energy module is connected to the hub, Jan opens the web interface for the energy hub, he logs into the administrator section of the system
 to start, stop or see a more detailed overview of each module.
 		\item Jan arrives at the university in the morning and an email was send to him reporting a failure in the green energy system, he login to the administrator web interface, and he can see what the problem might be, and if it's possible to solve it directly on the interface.
 	\end{itemize}
@@ -21,12 +21,23 @@ From this use cases given by the customer the relevant information for the datab
 	\end{itemize}
 In a deeper analysis of the information system for the power energy hub, some technical data is needed to be stored such as:
 	\begin{itemize}
-		\item Each module have is unique id, this is similar to the MAC address, this way when a module is connected is possible to check if the module have been connected before, so the data can be stored for the same module instead of instantiate a new module which can generate ambiguous data.
+		\item Each module have an unique id, this is similar to the MAC address, in this way, when a module is connected it is possible to check if the module have been connected before, so the data can be stored for the same module instead of instantiate a new module which can generate ambiguous data.
 		\item Three types of modules are defined: input, output and bidirectional. This are seen from the power hub point of view where inputs are producers ( solar panels, wind turbine, ... ), output are consumers ( Inverter, 30V output socket ) and bidirectional ( C.A.E.S, batteries, ...).
 	\end{itemize}
 
+\paragraph{Data Model}
+Data model is a high-level overview of the database structure. At this stage data sets are translated to a logic structure with the relationship between tables.
+
+\begin{figure}[H]
+	\begin{centering}
+		%\missingfigure{Webserver first page}
+		\includegraphics[width=1.0\textwidth]{images/db_datamodel.png}
+		\caption{Database relational overview ( Data Model )}
+	\end{centering}
+\end{figure}
+
 \paragraph{Data sets}
-From the system information analysis a basic tabular structure is designed for a better understanding and low level overview of the database, this is called data set structure.
+From the system information analysis a basic tabular structure is designed for a better understanding and low level overview of the database, this is called the data set structure.
 \\\\
 
 TYPE(ID\_TYPE, NAME);
@@ -36,7 +47,7 @@ TYPE(ID\_TYPE, NAME);
 	\begin{tabular}{| p{2cm} | p{10cm} |}
 		\hline
 		ID\_TYPE & Auto increment integer, a new id number is generated when a different type is needed to the system. \\\hline
-		NAME & Describe the type name for example: Input, output, bidirectional, etc.\\\hline
+		NAME & Describes the type name for example: Input, output, bidirectional, etc.\\\hline
 	\end{tabular}
 \end{table}
 
@@ -47,7 +58,7 @@ STATUS(ID\_STATUS, NAME);
 	\begin{tabular}{| p{2cm} | p{10cm} |}
 		\hline
 		ID\_STATUS & Auto increment integer, a new id number is generated when a different status is needed to the system. \\\hline
-		NAME & Describe the status name for example: Running, stopped, warning, etc.\\\hline
+		NAME & Describes the status name for example: Running, stopped, warning, etc.\\\hline
 	\end{tabular}
 \end{table}
 
@@ -56,10 +67,10 @@ MODULES(ID\_MODULE, ID\_TYPE, NAME, HUB\_PORT);
 
 \begin{table}[H]
 \centering
-	\begin{tabular}{| p{2cm} | p{10cm} |}
+	\begin{tabular}{| p{2.2cm} | p{10cm} |}
 		\hline
 		ID\_MODULE &  Module unique ID, this id as primary key ensures that no module with is repeated in the database.\\\hline
-		ID\_TYPE & This is a foreigner key for the table type, this way if some other type of module is needed it can be dynamical add. \\\hline
+		ID\_TYPE & This is a foreign key for the table type, in this way if some other type of module is needed it can be dynamically added. \\\hline
 		NAME & The name of the module for example, Solar Panel, wind turbine, battery. \\\hline
 		HUB\_PORT & Actual connected port for this module\\\hline
 	\end{tabular}
@@ -71,7 +82,7 @@ MEASUREMENTS(ID\_MEASURE, ID\_SENSOR, DATE\_TIME, HUB\_PORT, VALUE)
 
 \begin{table}[H]
 \centering
-	\begin{tabular}{| p{2cm} | p{10cm} |}
+	\begin{tabular}{| p{2.2cm} | p{10cm} |}
 		\hline
 		ID\_MEASURE &  Measurement id, auto increment field.\\\hline
 		ID\_SENSOR & This is a foreigner key for the table sensor, this associated the value retrieved to the correspondent sensor. \\\hline
@@ -87,10 +98,10 @@ LOGS(ID\_LOG, ID\_MODULE, DATE\_TIME, ID\_STATUS, ID\_USER, ID\_ERROR);
 
 \begin{table}[H]
 \centering
-	\begin{tabular}{| p{2cm} | p{10cm} |}
+	\begin{tabular}{| p{2.2cm} | p{10cm} |}
 		\hline
-		ID\_LOG & Auto increment integer, a new id number is generated every time a measurement is add. \\\hline
-		ID\_MODULE & This is a foreigner key for the table modules, this allow the system to know from which module correspond the measurement .\\\hline
+		ID\_LOG & Auto increment integer. A new id number is generated every time a measurement is added. \\\hline
+		ID\_MODULE & This is a foreigner key for the table modules, this allow the system to know from which module the measurement corresponds.\\\hline
 		DATE\_TIME & Date and time of the log is saved, in case of malfunction it will help with a time line. \\\hline
 		ID\_STATUS & The new status of the module that was changed.\\\hline
 		ID\_USER & Foreigner key for the table users, this will allow the system to know which user made the change. \\\hline
@@ -98,7 +109,7 @@ LOGS(ID\_LOG, ID\_MODULE, DATE\_TIME, ID\_STATUS, ID\_USER, ID\_ERROR);
 	\end{tabular}
 \end{table}
 
-For error handling situations a table ERRORS is created this way the administrator can have more control and act in case some mall function of the system.
+For error handling situations a table ERRORS is created, in this way the administrator have more control and are able to act in case of some mall function in the system.
 \\\\
 
 ERRORS(ID\_ERROR, NAME);
@@ -107,7 +118,7 @@ ERRORS(ID\_ERROR, NAME);
 \centering
 	\begin{tabular}{| p{2cm} | p{10cm} |}
 		\hline
-		ID\_ERROR & Auto increment integer, a new id number is generated when a different unit is needed to the system. \\\hline
+		ID\_ERROR & Auto increment integer. A new id number is generated when an unknown unit is needed to the system. \\\hline
 		NAME & Predefined error description. \\\hline
 	\end{tabular}
 \end{table}
@@ -121,7 +132,7 @@ MERGERS(ID\_MERGE, DATE\_FROM, DATE\_TO, ID\_SENSOR, VALUE);
 \centering
 	\begin{tabular}{| l | p{10cm} |}
 		\hline
-		ID\_MERGE & Auto increment integer, a new id number is generated every time an wrap is needed. \\\hline
+		ID\_MERGE & Auto increment integer. A new id number is generated every time an wrap is needed. \\\hline
 		ID\_SENSOR & This is a foreigner key for the table sensors, this allow the system to know from which sensor correspond the values .\\\hline
 		DATE\_FROM & Date and time of the time span start. \\\hline
 		DATE\_TO & Date and time of the time span end. \\\hline
@@ -135,9 +146,9 @@ SENSOR(ID\_SENSOR, ID\_MODULE, ID\_UNITS);
 \centering
 	\begin{tabular}{| p{2cm} | p{10cm} |}
 		\hline
-		ID\_SENSOR & Auto increment integer, a new id number is generated when a different sensor is needed to the system. \\\hline
+		ID\_SENSOR & Auto increment integer. A new id number is generated when a different sensor is needed to the system. \\\hline
 		ID\_MODULE & This is a foreigner key for the table sensors, this allow the system to know from which module correspond the sensor, being a primary key with the id\_sensor, this way each sensor correspond to only one module .\\\hline
-		ID\_UNITS & This is a foreigner key for the table units, this allow the system to know which units the sensor is measuring.\\\hline
+		ID\_UNITS & This is a foreigner key for the table units, which allow the system to know which units the sensor is measuring.\\\hline
 	\end{tabular}
 \end{table}
 
@@ -147,7 +158,7 @@ UNITS(ID\_UNIT, NAME);
 \centering
 	\begin{tabular}{| p{2cm} | p{10cm} |}
 		\hline
-		ID\_UNIT & Auto increment integer, a new id number is generated when a different unit is needed to the system. \\\hline
+		ID\_UNIT & Auto increment integer. A new id number is generated when a different unit is needed to the system. \\\hline
 		NAME & Describe the unit name for example: A, V, deg ,m/s,etc. (Ampere, Volt, Degrees, Velocity)\\\hline
 	\end{tabular}
 \end{table}
@@ -160,7 +171,7 @@ USERS(ID\_USER, NAME, PASS, EMAIL, ID\_PRIV);
 \centering
 	\begin{tabular}{| p{2cm} | p{10cm} |}
 		\hline
-		ID\_USER & Auto increment integer, a new id number is generated when a different privilege is needed to the system. \\\hline
+		ID\_USER & Auto increment integer. A new id number is generated when a different privilege is needed to the system. \\\hline
 		NAME & Username credential. \\\hline
 		PASS & User password (Not encrypted in this version). \\\hline
 		EMAIL & Email to which warnings are send. \\\hline
@@ -193,16 +204,6 @@ DEVICES(ID\_DEVICE, IP);
 \end{table}
 
 At this point, in an abstract way, the database can initialise a new module or identify if the module where connected before, change the status for each module and add new measurements for each sensor.
-\paragraph{Data Model}
-Data model is a high-level overview of the database structure. At this stage data sets are translated to a logic structure with the relationship between tables.
-
-\begin{figure}[H]
-	\begin{centering}
-		%\missingfigure{Webserver first page}
-		\includegraphics[width=1.0\textwidth]{images/db_datamodel.png}
-		\caption{Database relational overview ( Data Model )}
-	\end{centering}
-\end{figure}
 
 \subsection{File Structure - Theis Christensen }
 The file structure defines how files are grouped on a system, in a web server architecture the files are stored in the root directory defined by the web server (Apache) configuration. This section describes the analysis of a file structure that allows the scalability of the system.
@@ -253,9 +254,9 @@ Due to the size of such system and the few time for the development, the project
 \subsection{Communication - Dennis Madsen}
 The web interface is the connection between the user and the system, in this interface the user have to be able to see the data retrieved by the modules and at the same time be able to send commands to the energy hub/modules to do predefined tasks.
 
-To retrieve the measurements from the modules, an application running at the energy hub translate the data retrieved from the module through PLC to a URL request at the web server. In the server side a script is implemented to translate this request to a SQL query that saves the measurement to the database. It is important to define which data the server side script will expect from the energy hub request. Since each module can have more than one sensor is important to retrieve the sensor id, the measured value and the energy hub port that this module is connected to.
+To retrieve the measurements from the modules, an application running at the energy hub translates the data retrieved from the module through PLC to a URL request at the web server. In the server side a script is implemented to translate this request to a SQL query which then saves the measurement in the database. It is important to define which data the server side script will expect from the energy hub request. Since each module can have more than one sensor it is important to retrieve the sensor id, the measured value and the energy hub port that this module is connected to.
 
-The communication between the energy hub and the web server isn't exclusive for adding new measurements to the database, this communication is also used to update the database regarding the status of the modules in case of new connection, disconnection, a malfunction or stopped for security reasons. The data is saved in the table logs and shown to the user.
+The communication between the energy hub and the web server is not exclusive for adding new measurements to the database, the communication can also be used to update the database regarding the status of the modules in case of new connection, disconnection, malfunction or if it is stopped for security reasons. The data is saved in the table logs and shown to the user.
 
 \begin{figure}[H]
 	\begin{centering}
@@ -264,7 +265,7 @@ The communication between the energy hub and the web server isn't exclusive for 
 	\end{centering}
 \end{figure}
 
-As defined in the Project 3 ( in appendix ) requirements the system have to give the possibility for the administrator to control the modules and the energy hub. As such the web server have to stablish a connection to the system so commands can be send. A feedback of success or not is always given to the user since the command to be send can be of great importance for the well function of the system.
+As defined in the Project 3 (see appendix) requirements the system have to give the possibility for the administrator to control the modules and the energy hub. As such the web server have to stablish a connection to the system so commands can be send. A feedback of success or failure is always given to the user since the command to be send can be of great importance for the well function of the system.
 
 The flow of communication from the user until the final destination in this case the module or the energy hub.
 \begin{figure}[H]
@@ -274,7 +275,7 @@ The flow of communication from the user until the final destination in this case
 	\end{centering}
 \end{figure}
 
-A background application running at the energy hub, ensure that after a reboot, the IP address assigned by DHCP to the energy hub is saved in the database, this way commands can be send through the web interface. The system becomes more flexible in case of internal network changes.
+A background application running at the energy hub, ensures that after a reboot, the IP address assigned by DHCP to the energy hub is saved in the database, this way commands can be send through the web interface. The system becomes more flexible in case of internal network changes.
 \begin{figure}[H]
 	\begin{centering}
 		\includegraphics[width=0.8\textwidth]{images/saveip.png}

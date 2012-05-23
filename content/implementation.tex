@@ -1,5 +1,5 @@
 \section{Implementation}
-The development of the web interface is made in a local machine using MAMP ( MAC Apache MySQL PHP), and transfer later on to a web server on the university network. 
+The development of the web interface is made in a local machine using MAMP ( MAC Apache MySQL PHP), and later transferred to a web server on the university network. 
 
 \subsection{Web server set up - Theis Christensen}
 The approach used to implement a small web server on a Linux environment is described, the web server can be access at the address: http://10.1.18.223, it will be used in the evaluative and testing process
@@ -96,7 +96,7 @@ The steps used to install a web server on a machine running the Linux distributi
 		\begin{lstlisting}[language=c, stepnumber=0, tabsize=1]
 			# /etc/init.d/httpd restart
 		\end{lstlisting}
-		Testing phpMyAdmin by pointing in the web browser to the address http://10.1.18.223/phpmyadmin. The credential used for evaluation purpose are Username: eval Password: ede10eval
+		Testing phpMyAdmin by pointing in the web browser to the address http://10.1.18.223/phpmyadmin. The credential used for evaluation purpose are Username: eval, Password: ede10eval
 		\begin{figure}[H]
 			\begin{centering}
 				%\missingfigure{PHPmyadmin figure}
@@ -113,7 +113,7 @@ To create the tables to store data, a database directory have to be created at f
 \begin{lstlisting}[language=sql]
 		CREATE DATABASE `iEnergy`;
 \end{lstlisting}
-With the database directory created, the tables can now be created into it. Since the syntax to created the tables is the same, an example table that shows a all possible SQL keywords used in this project is used.
+With the database directory created, the tables can now be created into it. Since the syntax to create the tables is the same, an example table that shows a all possible SQL keywords used in this project is used.
 \begin{lstlisting}[language=sql]
 		CREATE TABLE IF NOT EXISTS `MEASUREMENTS` (
 		  `ID_MEASURE` int(11) NOT NULL auto_increment,
@@ -145,7 +145,7 @@ The ENGINE keyword defines the storage engine to be used in this table, as expla
 \end{figure}
 
 
-\subsubsection{getData.php} This script is described in this section since is main functionality is to retrieve values from the database using SQL queries and construct a XML file with the data retrieved. Only the Ampere measurements are requested and saved into this database since this is prototype of the system the necessary protocol and structure for the sensors in the modules was not defined.
+\subsubsection{getData.php} This script is described in this section since its main functionality is to retrieve values from the database using SQL queries and construct a XML file with the data retrieved. Only the Ampere measurements are requested and saved into this database since this is prototype of the system the necessary protocol and structure for the sensors in the modules was not defined.
 
 Script parameters:
 \begin{itemize}
@@ -263,10 +263,10 @@ XML as HTML is a markup language, using elements defined by tags. JavaScript is 
 The construction of the XML file can be seen above, the main element is DATA, having several 'child nodes'. This nodes (like HTML) can have several attributes, for example the element M1 and M2 contain attributes that defines the modules connected to the port 1 and 2 of the energy hub.
 
 \subsection{Communication - Dennis Madsen}
-The communication between the several components of the system is crucial, data is retrieved at a high rate from the modules, so an effective communication between the energy hub and the web server is implemented. Among the communication with the energy hub, the web interface needs a constant connection with the MySQL server, so data can added and retrieved from the database.
+The communication between the different components of the system is crucial. Data is retrieved at a high rate from the modules, so an effective communication between the energy hub and the web server is implemented. Among the communication with the energy hub, the web interface needs a constant connection with the MySQL server, so data can added and retrieved from the database.
 
 \subsubsection{savedata.php}
-A background application running in the energy hub converts the measurement sent through PLC (UART) to a HTTP request \textbf{savedata.php?sensor\_id=ID Sensor\&value=Sensor Measurement\&hub\_port=Hub Port}.
+A background application running in the energy hub converts the measurement send through PLC (UART) to a HTTP request \textbf{savedata.php?sensor\_id=ID Sensor\&value=Sensor Measurement\&hub\_port=Hub Port}.
 
 Script parameters:
 \begin{itemize}
@@ -334,7 +334,7 @@ Script parameters:
 This script saves the measurement retrieved from a sensor to the database. At first it established the connection to the MySQL server so SQL requests can be made.
 A PHP function returns an array with the current date and time, this is formatted into YYYY-M-D H:M:S, after it can be saved to the MEASUREMENTS table. The script collects all the parameters send through the URL encoding GET, a SQL code is generated and a request made to the MySQL server, the data is added to the MEASUREMENTS table.
 
-In case of status changes, a parameter \textbf{op} is encode with the method GET and if it value is 'status' the function changeStatus() will be called. This function will update the HUB\_PORT on the table MODULES and insert a new log to the table LOGS. The request for this functionality is  \textbf{savedata.php?op=status\&id\_module=MODULE ID\&id\_status=STATUS TO CHANDE TO\&hub\_port=HUB\_PORT}.
+In case of a status changes, a parameter \textbf{op} is encode with the method GET and if it value is 'status' the function changeStatus() will be called. This function will update the HUB\_PORT on the table MODULES and insert a new log to the table LOGS. The request for this functionality is: \textbf{savedata.php?op=status\&id\_module=MODULE ID\&id\_status=STATUS TO CHANDE TO\&hub\_port=HUB\_PORT}.
 
 \subsubsection{sendcmd.php}
 
@@ -401,7 +401,7 @@ This script is called in background by a client side script, this will handle ho
 
 \subsubsection{saveip.php}
 
-This script is called by the background application running on the energy hub, it saves the IP address given by DHCP, this is used for further communication between the web server and the energy hub.
+This script is called by the background application running on the energy hub, it saves the IP address given by DHCP, which is used for further communication between the web server and the energy hub.
 \begin{lstlisting}[language=php]
 	require_once("includes/db_connect.php");
 
@@ -516,13 +516,13 @@ Parameters:
 \end{figure}
 
 \subsection{Error Handling - Paulo Fontes}
-The implementation of an error handling will keep the web interface more reliable, improve user experience and alert the administrators to a error situation. A error handling PHP script is called in background, this script will test the communication between the web server and the energy hub, and the communication to the MySQL server. As described in the analysis in this report, the user interface is blocked giving the message warning when the communication with the MySQL server is lost and a warning is given to the user when no communication with energy hub is found.
+The implementation of error handling will keep the web interface more reliable, improve user experience and alert the administrators at error situation. An error handling PHP script is called in background, this script will test the communication between the web server and the energy hub, and the communication to the MySQL server. As described in the analysis in this report, the user interface is blocked giving the message warning when the communication with the MySQL server is lost and a warning is given to the user when no communication to the energy hub is found.
 
 \subsubsection{errorhandler.php} The error handler PHP script is included in each web page before any other script, this script is included when a page is loaded and is recursively called in background to test the connections. The script gives a XML response, when called as background so the client side JavaScript can handle the real time warnings to the user. This method can be called as active error handle, since it acts in real time, usually error handling is implemented when is need to do some action, for example retrieve data from database. With this system the user is immediately blocked from doing any action until the situation is solved.
 
-Since this script is included before everything else, the HTML, JavaScript and CSS layout is included in the file. Bellow several code blocks were extracted for and easier explanation, the full code can be seen using the application SeeIt and in the appendix of this report.
+Since this script is included before everything else, the HTML, JavaScript and CSS layout is included in the file. Bellow several code blocks is extracted for an easier explanation, the full code can be seen using the application SeeIt and in the appendix of this report.
 
-At first and most important the database connection have to be tested, as such a connection to the database is attempted. If the connection is successful the database error session variable will be 0. In case of connection failure the error variable will be changed to one and kept until the connection is re established, changing the session error variable to 2. This will tell the client side script that the situation was solved and in the next test the variable is changed to 0 again. This can be seen in the code bellow.
+At first and most important the database connection have to be tested, as such a connection to the database is attempted. If the connection is successful the database error session variable will be 0. In case of connection failure the error variable will be changed to one and kept until the connection is reestablished, changing the session error variable to 2. This will tell the client side script that the situation was solved and in the next test the variable is changed to 0 again. This can be seen in the code bellow.
 \begin{lstlisting}[language=php]
 	
 	if ($_SESSION['error_db']>1) { 
@@ -548,7 +548,7 @@ At first and most important the database connection have to be tested, as such a
 	}
 \end{lstlisting}
 
-If no error regarding the database connection is acknowledge, the ip address for the energy hub is retrieved and the connection with the energy hub can be established.
+If no errors regarding the database connection is acknowledge, the ip address for the energy hub is retrieved and the connection with the energy hub can be established.
 
 \begin{lstlisting}[language=php]
 if($_SESSION['error_db']==0){
@@ -609,7 +609,7 @@ This block of code is used only by the client side script, it make a request to 
 
 The else statement in this code indicates that, if the script was not called by the error.js, then it will include the necessary HTML, CSS and JavaScript to the file where it was included.
 
-An example of this situation is found at the index.php, the first lines of this script starts the session and includes errorhandle.php.
+An example of this situation is found in index.php. The first lines of this script starts the session and includes errorhandle.php.
 
 \begin{lstlisting}[language=php]
 <?php
@@ -664,6 +664,7 @@ The result variable is initialized and the returned XML data is assigned to it, 
 
 Graphical representation of an error in the connection to the database and communication to the energy hub device.
 \begin{figure}[H]
+	\centering
 	\begin{tabular}{ c c }
 		\includegraphics[width=0.5\textwidth]{images/error_db.png}
 &
@@ -673,7 +674,7 @@ Graphical representation of an error in the connection to the database and commu
 \end{figure} 
 
 \subsection{User Experience - Dennis Madsen}
-The user experience is improved by the client side scripts, HTTP requests are make as background using AJAX methods. This method is used in all the client side scripts in this system. The diagram above describe this method.
+The user experience is improved at the client side, where HTTP requests are made in the background using AJAX methods. This method is used in all the client side scripts in this system. The diagram below describes the method.
 
 How AJAX Works:
 
@@ -685,14 +686,14 @@ How AJAX Works:
 	\end{centering}
 \end{figure}
 
-JavaScript is used to handle the returned values and change the layout according to them, this add great functionalities in user experience, since just parts of the page are dynamical changed with now need for refreshing the page with every action.
+JavaScript is used to handle the returned values and change the layout according to them, this adds great functionalities in user experience, since just parts of the pages are dynamical changed with no need for refreshing the page with every action.
 
 \subsubsection{control.js}
-This script update the data displayed to the user without the need of refreshing the all page. It controls all the dynamics of the page such as send commands to the energy hub, get data from the database and displaying it to the users. The code for this script is extensive since it is the controller of the client side interface, as such the code can be seen in appendix or with the application SeeIt.
+This script updates the data displayed to the user without the need of refreshing the whole page. It controls all the dynamics of the page such as sending commands to the energy hub, getting data from the database and displaying it to the users. The code for this script is extensive since it is the controller of the client side interface, as such the code can be seen in the appendix or with the application SeeIt.
 
 The script con\_control.js in the root directory, is a striped down version of the control script, since its only functionality is to show the modules connected to the energy hub in the main page.
 
-Function getData, makes a background request to the server, returning an XML file. This file is then handle and the correspondent fields on the user interface are updated. (See appendix for code)
+The function getData, makes a background request to the server, returning an XML file. This file is then handled and the correspondent fields on the user interface are updated. (See appendix for code)
 
 Parameters:
 \begin{itemize}
@@ -700,7 +701,7 @@ Parameters:
 	\item str - path for the getdata.php script, normal path to this script would be the modules/ directory in the server structure, this method allows the modules to use a different script.
 \end{itemize}
 
-Function sendCmd, send a background request to the server, returning the success or not of the command. The result is handle and the user is notified if the command was not successful. 
+Function sendCmd, sends a background request to the server, returning the success or not of the command. The result is handled and the user is notified if the command was not successful. 
 
 Parameters:
 \begin{itemize}
