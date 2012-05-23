@@ -134,17 +134,18 @@ At first the name of the field is defined, for example HUB\_PORT will be the nam
 
 The ENGINE keyword defines the storage engine to be used in this table, as explained in the beginning of this section, the use of InnoDB is needed for the relationships and foreigner keys.
 
-%
-%
-%
 %	IMAGE from phpMyAdmin of the structure
 %
-%
-%
+\begin{figure}[H]
+		\begin{centering}
+			%\missingfigure{PHPmyadmin figure}
+			\includegraphics[width=0.8\textwidth]{images/db_struct.png}
+			\caption{Database structure and status}
+		\end{centering}
+\end{figure}
 
 
-
-\paragraph{getData.php} This script is described in this section since is main functionality is to retrieve values from the database using SQL queries and construct a XML file with the data retrieved. Only the Ampere measurements are requested and saved into this database since this is prototype of the system the necessary protocol and structure for the sensors in the modules was not defined.
+\subsubsection{getData.php} This script is described in this section since is main functionality is to retrieve values from the database using SQL queries and construct a XML file with the data retrieved. Only the Ampere measurements are requested and saved into this database since this is prototype of the system the necessary protocol and structure for the sensors in the modules was not defined.
 
 Script parameters:
 \begin{itemize}
@@ -238,7 +239,7 @@ Module status:
 	} ...
 \end{lstlisting}
 
-The SQL query, uses the keyword \textbf{SELECT} to show the values of the columns \textbf{NAME} and \textbf{ID\_STATUS}, \textbf{FROM} table \textbf{STATUS}, when joined (\textbf{INNER JOIN ON}) with table \textbf{LOGS} where the ID\_STATUS match, and \textbf{WHERE} the field \textbf{ID\_MODULE} match with the \textbf{unique\_id} send by parameter, the results are \textbf{ORDER BY} the column \textbf{ID\_LOG}, from the last inserted value to the first(\textbf{DESC}), with a \textbf{LIMIT} of \textbf{1} result.
+The SQL query, uses the keyword \textbf{SELECT} to show the values of the columns \textbf{NAME} and \textbf{ID\_STATUS}, \textbf{FROM} table \textbf{STATUS}, when joined (\textbf{INNER JOIN ON}) with table \textbf{LOGS} where the \textbf{STATUS.ID\_STATUS} match with \textbf{LOGS.ID\_STATUS}, and \textbf{WHERE} the field \textbf{ID\_MODULE} match with the \textbf{unique\_id} send by parameter, the results are \textbf{ORDER BY} the column \textbf{ID\_LOG}, from the last inserted value to the first(\textbf{DESC}), with a \textbf{LIMIT} of \textbf{1} result.
 
 This query returns the status name and id for the desired module, the returned values are assigned to the variable stat and id\_stat for later use in this script. In case the status id is different then 3, the module will not be running, so no values are shown to the user.
 
@@ -257,13 +258,14 @@ Create the XML result:
 			 '<DEV_ERROR>'.$_SESSION['error_device'].'</DEV_ERROR>'.
 			'</DATA>';
 \end{lstlisting}
-XML as HTML is a markup language, using elements defined by tags. JavaScript is able to translate XML files with built-in objects, this allows the return of a large scale of data at once, reducing the number of scripting needed and requests to the web server.
+XML as HTML is a markup language, using elements defined by tags. JavaScript is able to translate XML files with built-in objects, this allows the return of a large amount of data at once, reducing the number of scripting needed and requests to the web server.
 
 The construction of the XML file can be seen above, the main element is DATA, having several 'child nodes'. This nodes (like HTML) can have several attributes, for example the element M1 and M2 contain attributes that defines the modules connected to the port 1 and 2 of the energy hub.
 
 \subsection{Communication}
-\paragraph{savedata.php}
+The communication between the several components of the system is crucial, data is retrieved at a high rate from the modules, so an effective communication between the energy hub and the web server is implemented. Among the communication with the energy hub, the web interface needs a constant connection with the MySQL server, so data can added and retrieved from the database.
 
+\subsubsection{savedata.php}
 A background application running in the energy hub converts the measurement sent through PLC (UART) to a HTTP request \textbf{savedata.php?sensor\_id=ID Sensor\&value=Sensor Measurement\&hub\_port=Hub Port}.
 
 Script parameters:
@@ -334,7 +336,7 @@ A PHP function returns an array with the current date and time, this is formatte
 
 In case of status changes, a parameter \textbf{op} is encode with the method GET and if it value is 'status' the function changeStatus() will be called. This function will update the HUB\_PORT on the table MODULES and insert a new log to the table LOGS. The request for this functionality is  \textbf{savedata.php?op=status\&id\_module=MODULE ID\&id\_status=STATUS TO CHANDE TO\&hub\_port=HUB\_PORT}.
 
-\paragraph{sendcmd.php}
+\subsubsection{sendcmd.php}
 
 The web interface is able to send commands to the energy hub and the modules using the\\ \textbf{sendcmd.php?id\_module=\textless module id\textgreater\&cmd=\textless command to be send\textgreater }. The id\_module tells the hub which module the command should be send.
 No verification is made of the send command by the web server or the energy hub unless the command is specifically send to the hub.
@@ -397,9 +399,9 @@ At first the script will get the ip address of the energy hub, a SQL query retri
 
 This script is called in background by a client side script, this will handle how to warning the user in case a problem occurs.
 
-\lineparagraph{saveip.php}
+\subsubsection{saveip.php}
 
-\textit{saveip.php} script is called by the background application running on the energy hub, it saves the IP address given by DHCP, this is used for further communication between the web server and the energy hub.
+This script is called by the background application running on the energy hub, it saves the IP address given by DHCP, this is used for further communication between the web server and the energy hub.
 \begin{lstlisting}[language=php]
 	require_once("includes/db_connect.php");
 
@@ -420,7 +422,7 @@ This script is called in background by a client side script, this will handle ho
 The ip address is send by the GET method (saveip.php?ip=127.0.0.1), this is how the data in encoded into a URL, being collected in the variable \$\_GET['ip']. 
 A \$sql variable string is created containing the SQL code to be run at the MySQL server.
 
-\lineparagraph{db\_connect.php}
+\subsubsection{db\_connect.php}
 
 For the communication to the database a driver is used in PHP that provides an interface to the MySQL server. The PHP mysqli extension (MySQL improved) is used in this project, this is recommend for MySQL servers version 4.1.3 or later. This extension provides several benefits as a objective-oriented interface, support for multiple statements, embedded server support and more can be found in the MySQL documentation.
 
@@ -441,7 +443,7 @@ In this script an object is instantiated with a connection to the MySQL server.
 
 The parameters are included from the db\_globals.php, setting the server host, user, password and database to be used.
 
-\lineparagraph{db\_globals.php}
+\subsubsection{db\_globals.php}
 
 Using a script to define the parameters for the MySQL connection, 
 All the scripts that need to use the global parameters for the connection to the MySQL server, should include db\_globals.php as shown in the db\_connect.php above.
@@ -464,9 +466,10 @@ The global parameters the connection to the MySQL server are define in this scri
 \end{itemize}
 
 \subsection{Login}
-The login script is called in background by the client side script popUp and handles the login and logout of the users.
 
-\paragraph{login.php }The server side script login, receives the credentials given by the user and compares with the ones stored in the database. In case of match, the privilege ID is retrieved and a user session is created with the user name and privilege id. In case of logout the session privilege is set to 0 and a message is returned to the client side script to handle.
+The login script is called in background by the client side script popUp, this handles the login and logout of the users to the system. Both client and server side scripts for the login functionality is explained in this section.
+
+\subsubsection{login.php}The server side script login, receives the credentials given by the user and compares with the ones stored in the database. In case of match, the privilege ID is retrieved and a user session is created with the user name and privilege id. In case of logout the session privilege is set to 0 and a message is returned to the client side script to handle.
 \begin{lstlisting}[language=php]
 	if (isset($_POST['logout'])){ // If logout is set by PORT encoded URL request
 		
@@ -492,7 +495,7 @@ The login script is called in background by the client side script popUp and han
 
 Passwords are not encrypted in the table USERS since no user management web application was developed, the user names and passwords have to be inserted 'manually' into the database using phpMyAdmin. This system doesn't require high level of security since it cannot be accessible form the outside the university network.
 
-\paragraph{popUp.js}
+\subsubsection{popUp.js}
 The popUp script, handle the login actions to the web interface. When the locker is clicked, the window is blocked with a dark grey background and the credentials are asked from the user. The user is able to cancel this action, or input the credential to login into the web interface administration. When the user name and password are inserted and the ok button clicked, a background request is made to the script login.php. This will return an 'ok' if the credentials are correct, or an error message to be shown to the user if no match is found on the table USERS. The implementation of the login.php script is explained earlier in this project.
 
 Function sendCred, sends a background request to the server, returns ok if success and error message otherwise. 
@@ -503,18 +506,19 @@ Parameters:
 	\item str - path for the login.php script, normal path to this script would be the root directory of the server, in this way customized login scripts can be used.
 \end{itemize}
 
-%
-%
-%
 %	IMAGE from login popup
-%
-%
-%
+\begin{figure}[H]
+		\begin{centering}
+			%\missingfigure{PHPmyadmin figure}
+			\includegraphics[width=0.6\textwidth]{images/login.png}
+			\caption{Login window}
+		\end{centering}
+\end{figure}
 
 \subsection{Error Handling}
 The implementation of an error handling will keep the web interface more reliable, improve user experience and alert the administrators to a error situation. A error handling PHP script is called in background, this script will test the communication between the web server and the energy hub, and the communication to the MySQL server. As described in the analysis in this report, the user interface is blocked giving the message warning when the communication with the MySQL server is lost and a warning is given to the user when no communication with energy hub is found.
 
-\paragraph{errorhandler.php} The error handler PHP script is included in each web page before any other script, this script is included when a page is loaded and is recursively called in background to test the connections. The script gives a XML response, when called as background so the client side JavaScript can handle the real time warnings to the user. This method can be called as active error handle, since it acts in real time, usually error handling is implemented when is need to do some action, for example retrieve data from database. With this system the user is immediately blocked from doing any action until the situation is solved.
+\subsubsection{errorhandler.php} The error handler PHP script is included in each web page before any other script, this script is included when a page is loaded and is recursively called in background to test the connections. The script gives a XML response, when called as background so the client side JavaScript can handle the real time warnings to the user. This method can be called as active error handle, since it acts in real time, usually error handling is implemented when is need to do some action, for example retrieve data from database. With this system the user is immediately blocked from doing any action until the situation is solved.
 
 Since this script is included before everything else, the HTML, JavaScript and CSS layout is included in the file. Bellow several code blocks were extracted for and easier explanation, the full code can be seen using the application SeeIt and in the appendix of this report.
 
@@ -565,7 +569,7 @@ if($_SESSION['error_db']==0){
 		$device_ip = $row[0];
 \end{lstlisting}
 
-The SQL statement  \textbf{SELECT IP FROM `DEVICE` ORDER BY ID\_DEVICE DESC LIMIT 1} from the database the last ip address insert in the table. The keywords ORDER BY ID\_DEVICE DESC will show the last data added and the keyword LIMIT 1, limits the number of values return to only one. The value is then fetched from the result and assigned to the variable device\_ip for later use in the connection.
+The SQL statement  \textbf{SELECT IP FROM `DEVICE` ORDER BY ID\_DEVICE DESC LIMIT 1} retrieves the last ip address insert in the table. The keywords ORDER BY ID\_DEVICE DESC will show the last data added and the keyword LIMIT 1, limits the number of values return to only one. The value is then fetched from the result and assigned to the variable device\_ip for later use in the connection.
 
 For the communication to the energy hub a socket have to be created and a connection established. In case of one of this steps don't work (Socket creation and Connection), a error session variable is set to 1, the client side application will catch this error and alert the user for such situation. The socket is closed after testing to leave the connection path open for new tests or commands to be send.
 
@@ -617,7 +621,7 @@ An example of this situation is found at the index.php, the first lines of this 
 ?>
 \end{lstlisting}
 
-\paragraph{error.js}
+\subsubsection{error.js}
 This script catches and handle errors in the client side, it uses background requests to the PHP script errorhadle.php. By the XML response it acts according the situation. JavaScript is a dynamic language with a lot of potential, and this is used in detail in this script.Meaningful blocks will be extracted from the code and explained here.
 
 Three functions are part of this script, being two of them for animation to improve the user experience, they are not documented in this section. The remaining function is the mains focus of the error handling system, is called makeTests().
@@ -655,16 +659,18 @@ The result variable is initialized and the returned XML data is assigned to it, 
 		</ERROR>
 \end{lstlisting}
 
-Where 0 and 2 stands for no error and 1 for error occurrence.
-
-%
-%
-%
 %	IMAGE from ERROR HANDLING database and device
 %
-%
-%
 
+Graphical representation of an error in the connection to the database and communication to the energy hub device.
+\begin{figure}[H]
+	\begin{tabular}{ c c }
+		\includegraphics[width=0.5\textwidth]{images/error_db.png}
+&
+		\includegraphics[width=0.2\textwidth]{images/error_device.png}
+\end{tabular}
+\caption{Database Error and Device communication Error}
+\end{figure} 
 
 \subsection{User Experience}
 The user experience is improved by the client side scripts, HTTP requests are make as background using AJAX methods. This method is used in all the client side scripts in this system. The diagram above describe this method.
@@ -681,7 +687,7 @@ How AJAX Works:
 
 JavaScript is used to handle the returned values and change the layout according to them, this add great functionalities in user experience, since just parts of the page are dynamical changed with now need for refreshing the page with every action.
 
-\paragraph{control.js}
+\subsubsection{control.js}
 This script update the data displayed to the user without the need of refreshing the all page. It controls all the dynamics of the page such as send commands to the energy hub, get data from the database and displaying it to the users. The code for this script is extensive since it is the controller of the client side interface, as such the code can be seen in appendix or with the application SeeIt.
 
 The script con\_control.js in the root directory, is a striped down version of the control script, since its only functionality is to show the modules connected to the energy hub in the main page.
